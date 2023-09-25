@@ -30,8 +30,6 @@ PUNCT_TO_REMOVE = string.punctuation
 STOPWORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
-
-
 # Lowercase
 def Lowercase(text: str) -> str:
     return text.lower()
@@ -210,24 +208,15 @@ pipeline = Pipeline([
     ('remove_stopwords', stopwords_transformer),
     #('remove_freqwords', freqwords_transformer),
     #('remove_rarewords', rarewords_transformer),
-    ('correct_spellings', spellings_transformer)
-    ('lemmatize_words', lemmatize_transformer),
+    ('correct_spellings', spellings_transformer),
+    ('lemmatize_words', lemmatize_transformer)
     
 ])
-
-
-
-
-# if __name__ == "__main__":
-#     df = pd.read_csv("nlp_courses/tp_1_text_cleaning/to_clean.csv", index_col=0)
-#     df["cleaned_text"] = df.text.apply(lambda x: preprocessing_pipeline(x))
-#     for idx, row in df.iterrows():
-#         print(f"\nBase text: {row.text}")
-#         print(f"Cleaned text: {row.cleaned_text}\n")
         
         
 if __name__ == "__main__":
     df = pd.read_csv("nlp_courses/tp_1_text_cleaning/to_clean.csv", index_col=0)
+#     df["cleaned_text"] = df.text.apply(lambda x: preprocessing_pipeline(x))
     df["cleaned_text"] = pipeline.transform(df["text"].values) 
     for idx, row in df.iterrows():
         print(f"\nBase text: {row.text}")
