@@ -47,7 +47,7 @@ def remove_stopwords(text: str) -> str:
     filtered_words = [word for word in words if word not in STOPWORDS]
     return ' '.join(filtered_words)
 
-# frequent words removal
+''' frequent words removal
 #def remove_freqwords(text: str, freq_words: list=FREQWORDS) -> str: 
     
     words = text.split()
@@ -67,7 +67,7 @@ def remove_stopwords(text: str) -> str:
     words = text.split()
     filter_words = [word for word in words if word not in words_to_remove]
     return ' '.join(filter_words)
-
+'''
 
 # lemmatization
 def lemmatize_words(text: str) -> str:
@@ -131,7 +131,6 @@ def chat_words_conversion(text: str) -> str:
 
     return ' '.join(new_text)
 
-
 #spelling correction
 def correct_spellings(text: str) -> str:
     
@@ -155,8 +154,18 @@ def correct_spellings(text: str) -> str:
 
 def preprocessing_pipeline(text: str) -> str:
     """
-    Add a short description of your preprocessing pipeline here
-    (see TP_1 for references)
+    This preprocessing pipeline is designed to optimize the clarity and quality of text data for NLP tasks. 
+    Initially, we address content that doesn't offer semantic value, like URLs and HTML tags. 
+    Subsequent steps, like lowercase conversion and punctuation removal, ensure text standardization. 
+    By removing stopwords before lemmatization, we reduce unnecessary computational work. 
+    Conversions (emoticons, emojis, chat words) are done afterward to ensure their standard representations benefit from the prior cleaning steps. 
+    Finally, spelling correction is applied to refine the overall text quality.
+
+    Args:
+        text (str): Raw text data.
+
+    Returns:
+        str: Processed and cleaned text.
     """
     # Your code here:
     text = remove_urls(text)
@@ -216,9 +225,12 @@ pipeline = Pipeline([
         
 if __name__ == "__main__":
     df = pd.read_csv("nlp_courses/tp_1_text_cleaning/to_clean.csv", index_col=0)
-#     df["cleaned_text"] = df.text.apply(lambda x: preprocessing_pipeline(x))
+    #df["cleaned_text"] = df.text.apply(lambda x: preprocessing_pipeline(x))
     df["cleaned_text"] = pipeline.transform(df["text"].values) 
     for idx, row in df.iterrows():
         print(f"\nBase text: {row.text}")
         print(f"Cleaned text: {row.cleaned_text}\n")
+
+
+
 
